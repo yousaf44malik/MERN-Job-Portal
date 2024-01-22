@@ -11,24 +11,11 @@ import router from "./routes/index.js";
 import errorMiddleware from "./middlewares/errorMiddleware.js";
 import multer from "multer";
 import path from "path";
-import corsmiddleware from "./middlewares/Corsmiddleware.js";
 
 dotenv.config();
 
 const app = express();
 
-app.use(cors());
-app.options("*", cors());
-var whitelist = ["https://workease-bese27c.vercel.app"];
-var corsOptions = {
-  origin: function (origin, callback) {
-    var originIsWhitelisted = whitelist.indexOf(origin) !== -1;
-    callback(null, originIsWhitelisted);
-  },
-  credentials: true,
-};
-app.use(cors(corsOptions));
-app.use(corsmiddleware);
 const PORT = process.env.PORT || 8800;
 
 // MONGODB CONNECTION
@@ -36,22 +23,7 @@ dbConnection();
 
 // middlename
 app.use(express.static("public"));
-// app.use(
-//   cors({
-//     origin: "https://workease-bese27c.vercel.app",
-//   })
-// );
-
-// var whitelist = ["https://workease-bese27c.vercel.app"];
-// var corsOptions = {
-//   origin: function (origin, callback) {
-//     var originIsWhitelisted = whitelist.indexOf(origin) !== -1;
-//     callback(null, originIsWhitelisted);
-//   },
-//   credentials: true,
-// };
-// app.use(cors(corsOptions));
-
+app.use(cors());
 app.use(xss());
 app.use(mongoSanitize());
 app.use(bodyParser.json());
@@ -61,12 +33,8 @@ app.use(express.urlencoded({ extended: true }));
 app.use(bodyParser.json({ limit: "30mb", extended: true }));
 app.use(bodyParser.urlencoded({ limit: "30mb", extended: true }));
 app.use(morgan("dev"));
-app.use(router);
 
-//error middleware
-app.use(errorMiddleware);
-
-// configuration for multer
+//configuration for multer
 const storage1 = multer.diskStorage({
   destination: (req, file, cb) => {
     cb(null, "public/");
@@ -88,6 +56,10 @@ app.post(`/upload-cv`, upload1.single("CV"), async (req, res) => {
     res.status(400).send(error);
   }
 });
+app.use(router);
+
+//error middleware
+app.use(errorMiddleware);
 
 const __dirname = path.resolve();
 app.use("/resources", express.static(path.join(__dirname, "/public")));
