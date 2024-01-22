@@ -49,20 +49,6 @@ const storage1 = multer.diskStorage({
 });
 const upload1 = multer({ storage: storage1 });
 app.post(`/upload-cv`, upload1.single("CV"), async (req, res) => {
-  res.setHeader(
-    "Access-Control-Allow-Origin",
-    "https://workease-server-woad.vercel.app"
-  );
-  res.setHeader(
-    "Access-Control-Allow-Methods",
-    "GET, POST, OPTIONS, PUT, PATCH, DELETE"
-  );
-
-  res.setHeader(
-    "Access-Control-Allow-Headers",
-    "X-Requested-With,content-type"
-  );
-  res.setHeader("Access-Control-Allow-Credentials", true);
   console.log(req.file);
   try {
     if (!req.file) {
@@ -93,21 +79,28 @@ const storage = multer.diskStorage({
 
 const upload = multer({ storage: storage });
 
-app.post("/upload", upload.single("file"), (req, res) => {
-  res.setHeader(
-    "Access-Control-Allow-Origin",
-    "https://workease-server-woad.vercel.app"
-  );
+app.use(function (req, res, next) {
+  // Website you wish to allow to connect
+  res.setHeader("Access-Control-Allow-Origin", "*");
+
+  // Request methods you wish to allow
   res.setHeader(
     "Access-Control-Allow-Methods",
     "GET, POST, OPTIONS, PUT, PATCH, DELETE"
   );
 
+  // Request headers you wish to allow
   res.setHeader(
     "Access-Control-Allow-Headers",
     "X-Requested-With,content-type"
   );
   res.setHeader("Access-Control-Allow-Credentials", true);
+
+  // Pass to next layer of middleware
+  next();
+});
+
+app.post("/upload", upload.single("file"), (req, res) => {
   const file = req.file; // Access the uploaded file
   // console.log(req.query.fileName);
   // Process the file as needed
