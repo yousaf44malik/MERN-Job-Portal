@@ -48,7 +48,7 @@ const UserForm = ({ open, setOpen }) => {
         const newData = { token: res?.token, ...res?.user };
         dispatch(Login(newData));
         localStorage.setItem("userInfo", JSON.stringify(newData));
-        // window.location.reload();
+        window.location.reload();
       }
       setIsSubmitting(false);
     } catch (error) {
@@ -208,7 +208,6 @@ const UserForm = ({ open, setOpen }) => {
                         </label>
                         <input
                           type="file"
-                          accept="application/pdf"
                           onChange={(e) => setCV(e.target.files[0])}
                         />
                       </div>
@@ -305,9 +304,7 @@ const UserProfile = () => {
                 <a
                   className="flex gap-1   dark:text-white  items-center justify-center  px-3 py-1 text-slate-600 rounded-full"
                   href={
-                    "https://workease-server-woad.vercel.app/" +
-                    user?._id +
-                    ".pdf"
+                    "https://sc-sem-proj-dep.vercel.app/" + user?._id + ".pdf"
                   }
                   target="_blank"
                 >
