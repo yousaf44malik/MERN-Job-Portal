@@ -23,7 +23,12 @@ dbConnection();
 
 // middlename
 app.use(express.static("public"));
-app.use(cors());
+// app.use(cors());
+const corsOptions = {
+  origin: /\.onrender\.com$/,
+  methods: "GET,HEAD,PUT,PATCH,POST,DELETE",
+};
+app.use(cors(corsOptions));
 
 app.use(xss());
 app.use(mongoSanitize());
