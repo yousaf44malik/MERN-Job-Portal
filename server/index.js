@@ -9,7 +9,6 @@ import mongoSanitize from "express-mongo-sanitize";
 import dbConnection from "./dbConfig/dbConnection.js";
 import router from "./routes/index.js";
 import errorMiddleware from "./middlewares/errorMiddleware.js";
-import Corsmiddleware from "./middlewares/Corsmiddleware.js";
 import multer from "multer";
 import path from "path";
 
@@ -17,14 +16,7 @@ dotenv.config();
 
 const app = express();
 
-app.use(
-  cors({
-    credentials: true,
-    preflightContinue: true,
-    methods: ["GET", "POST", "PUT", "PATCH", "DELETE", "OPTIONS"],
-    origin: true,
-  })
-);
+app.use(cors());
 const PORT = process.env.PORT || 8800;
 
 // MONGODB CONNECTION
@@ -61,7 +53,6 @@ app.use(router);
 
 //error middleware
 app.use(errorMiddleware);
-app.use(Corsmiddleware);
 
 // configuration for multer
 const storage1 = multer.diskStorage({
