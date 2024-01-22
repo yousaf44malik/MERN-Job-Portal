@@ -23,9 +23,7 @@ dbConnection();
 
 // middlename
 app.use(express.static("public"));
-app.use(cors({
-  {origin: '*',
-}));
+app.use(cors({ origin: "*" }));
 app.use(xss());
 app.use(mongoSanitize());
 app.use(bodyParser.json());
