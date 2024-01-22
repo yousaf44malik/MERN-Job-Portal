@@ -9,14 +9,22 @@ import mongoSanitize from "express-mongo-sanitize";
 import dbConnection from "./dbConfig/dbConnection.js";
 import router from "./routes/index.js";
 import errorMiddleware from "./middlewares/errorMiddleware.js";
+import Corsmiddleware from "./middlewares/Corsmiddleware.js";
 import multer from "multer";
 import path from "path";
+
 dotenv.config();
 
 const app = express();
 
-app.use(cors());
-
+app.use(
+  cors({
+    credentials: true,
+    preflightContinue: true,
+    methods: ["GET", "POST", "PUT", "PATCH", "DELETE", "OPTIONS"],
+    origin: true,
+  })
+);
 const PORT = process.env.PORT || 8800;
 
 // MONGODB CONNECTION
@@ -24,6 +32,21 @@ dbConnection();
 
 // middlename
 app.use(express.static("public"));
+// app.use(
+//   cors({
+//     origin: "https://workease-bese27c.vercel.app",
+//   })
+// );
+
+// var whitelist = ["https://workease-bese27c.vercel.app"];
+// var corsOptions = {
+//   origin: function (origin, callback) {
+//     var originIsWhitelisted = whitelist.indexOf(origin) !== -1;
+//     callback(null, originIsWhitelisted);
+//   },
+//   credentials: true,
+// };
+// app.use(cors(corsOptions));
 
 app.use(xss());
 app.use(mongoSanitize());
@@ -38,7 +61,7 @@ app.use(router);
 
 //error middleware
 app.use(errorMiddleware);
-// app.use(Corsmiddleware);
+app.use(Corsmiddleware);
 
 // configuration for multer
 const storage1 = multer.diskStorage({
