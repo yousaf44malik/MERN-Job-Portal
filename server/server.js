@@ -15,14 +15,7 @@ dotenv.config();
 
 const app = express();
 
-app.use(
-  cors({
-    credentials: true,
-    preflightContinue: true,
-    methods: ["GET", "POST", "PUT", "PATCH", "DELETE", "OPTIONS"],
-    origin: true,
-  })
-);
+app.use(cors());
 
 const PORT = process.env.PORT || 8800;
 
@@ -31,21 +24,6 @@ dbConnection();
 
 // middlename
 app.use(express.static("public"));
-// app.use(
-//   cors({
-//     origin: "https://workease-bese27c.vercel.app",
-//   })
-// );
-
-// var whitelist = ["https://workease-bese27c.vercel.app"];
-// var corsOptions = {
-//   origin: function (origin, callback) {
-//     var originIsWhitelisted = whitelist.indexOf(origin) !== -1;
-//     callback(null, originIsWhitelisted);
-//   },
-//   credentials: true,
-// };
-// app.use(cors(corsOptions));
 
 app.use(xss());
 app.use(mongoSanitize());
