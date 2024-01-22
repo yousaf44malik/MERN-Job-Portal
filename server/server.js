@@ -11,6 +11,7 @@ import router from "./routes/index.js";
 import errorMiddleware from "./middlewares/errorMiddleware.js";
 import multer from "multer";
 import path from "path";
+import corsmiddleware from "./middlewares/Corsmiddleware.js";
 
 dotenv.config();
 
@@ -27,6 +28,7 @@ var corsOptions = {
   credentials: true,
 };
 app.use(cors(corsOptions));
+app.use(corsmiddleware);
 const PORT = process.env.PORT || 8800;
 
 // MONGODB CONNECTION

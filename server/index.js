@@ -11,12 +11,24 @@ import router from "./routes/index.js";
 import errorMiddleware from "./middlewares/errorMiddleware.js";
 import multer from "multer";
 import path from "path";
+import corsmiddleware from "./middlewares/Corsmiddleware.js";
 
 dotenv.config();
 
 const app = express();
 
 app.use(cors());
+app.options("*", cors());
+var whitelist = ["https://workease-bese27c.vercel.app"];
+var corsOptions = {
+  origin: function (origin, callback) {
+    var originIsWhitelisted = whitelist.indexOf(origin) !== -1;
+    callback(null, originIsWhitelisted);
+  },
+  credentials: true,
+};
+app.use(cors(corsOptions));
+app.use(corsmiddleware);
 const PORT = process.env.PORT || 8800;
 
 // MONGODB CONNECTION
