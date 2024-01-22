@@ -294,7 +294,7 @@ const Apply = () => {
                     name="resume"
                     className="mt-4"
                     type="file"
-                    accept=".pdf"
+                    accept="application/pdf"
                     ref={fileInputRef}
                     onInput={handleFileChange}
                   />

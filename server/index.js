@@ -23,16 +23,7 @@ dbConnection();
 
 // middlename
 app.use(express.static("public"));
-// app.use(cors({ origin: true, credentials: true }));
-const corsOptions = {
-  origin: "https://workease-bese27c.vercel.app",
-  methods: "GET,HEAD,PUT,PATCH,POST,DELETE",
-  credentials: true,
-  preflightContinue: false,
-  optionsSuccessStatus: 204,
-};
-
-app.use(cors(corsOptions));
+app.use(cors());
 
 app.use(xss());
 app.use(mongoSanitize());
@@ -43,23 +34,6 @@ app.use(express.urlencoded({ extended: true }));
 app.use(bodyParser.json({ limit: "30mb", extended: true }));
 app.use(bodyParser.urlencoded({ limit: "30mb", extended: true }));
 app.use(morgan("dev"));
-
-app.use(function (req, res, next) {
-  req.connection.setNoDelay(true);
-  res.header(
-    "Access-Control-Allow-Headers",
-    "Origin, X-Requested-With, Content-Type, Accept"
-  );
-  res.header("Access-Control-Allow-Credentials", true);
-  res.header(
-    "Access-Control-Allow-Origin",
-    "https://workease-bese27c.vercel.app"
-  );
-
-  res.header("Access-Control-Expose-Headers", "agreementrequired");
-
-  next();
-});
 
 //configuration for multer
 const storage1 = multer.diskStorage({
@@ -85,30 +59,17 @@ app.post(`/upload-cv`, upload1.single("CV"), async (req, res) => {
 });
 app.use(router);
 
-app.use(function (req, res, next) {
-  // Website you wish to allow to connect
-  res.setHeader("Access-Control-Allow-Origin", "*");
-
-  // Request methods you wish to allow
-  res.setHeader(
-    "Access-Control-Allow-Methods",
-    "GET, POST, OPTIONS, PUT, PATCH, DELETE"
-  );
-
-  // Request headers you wish to allow
-  res.setHeader(
-    "Access-Control-Allow-Headers",
-    "X-Requested-With,content-type"
-  );
-  res.setHeader("Access-Control-Allow-Credentials", true);
-
-  // Pass to next layer of middleware
-  next();
-});
-
 //error middleware
 app.use(errorMiddleware);
 
+app.use(function (req, res, next) {
+  res.header("Access-Control-Allow-Origin", "*");
+  res.header(
+    "Access-Control-Allow-Headers",
+    "Origin, X-Requested-With, Content-Type, Accept, Cache-Control, Key, Access-Control-Allow-Origin"
+  );
+  next();
+});
 const __dirname = path.resolve();
 app.use("/resources", express.static(path.join(__dirname, "/public")));
 

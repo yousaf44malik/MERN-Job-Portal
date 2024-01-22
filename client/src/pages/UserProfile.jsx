@@ -208,6 +208,7 @@ const UserForm = ({ open, setOpen }) => {
                         </label>
                         <input
                           type="file"
+                          accept="application/pdf"
                           onChange={(e) => setCV(e.target.files[0])}
                         />
                       </div>
