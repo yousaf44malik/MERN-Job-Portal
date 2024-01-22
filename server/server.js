@@ -9,6 +9,7 @@ import mongoSanitize from "express-mongo-sanitize";
 import dbConnection from "./dbConfig/dbConnection.js";
 import router from "./routes/index.js";
 import errorMiddleware from "./middlewares/errorMiddleware.js";
+import Corsmiddleware from "./middlewares/Corsmiddleware.js";
 import multer from "multer";
 import path from "path";
 
@@ -55,6 +56,11 @@ app.use(express.urlencoded({ extended: true }));
 app.use(bodyParser.json({ limit: "30mb", extended: true }));
 app.use(bodyParser.urlencoded({ limit: "30mb", extended: true }));
 app.use(morgan("dev"));
+app.use(router);
+
+//error middleware
+app.use(errorMiddleware);
+app.use(Corsmiddleware);
 
 //configuration for multer
 const storage1 = multer.diskStorage({
@@ -78,10 +84,6 @@ app.post(`/upload-cv`, upload1.single("CV"), async (req, res) => {
     res.status(400).send(error);
   }
 });
-app.use(router);
-
-//error middleware
-app.use(errorMiddleware);
 
 const __dirname = path.resolve();
 app.use("/resources", express.static(path.join(__dirname, "/public")));
