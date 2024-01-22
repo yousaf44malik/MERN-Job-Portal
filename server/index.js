@@ -23,11 +23,21 @@ dbConnection();
 
 // middlename
 app.use(express.static("public"));
-app.use(
-  cors({
-    origin: "https://workease-bese27c.vercel.app",
-  })
-);
+// app.use(
+//   cors({
+//     origin: "https://workease-bese27c.vercel.app",
+//   })
+// );
+
+var whitelist = ["https://workease-bese27c.vercel.app"];
+var corsOptions = {
+  origin: function (origin, callback) {
+    var originIsWhitelisted = whitelist.indexOf(origin) !== -1;
+    callback(null, originIsWhitelisted);
+  },
+  credentials: true,
+};
+app.use(cors(corsOptions));
 
 app.use(xss());
 app.use(mongoSanitize());
@@ -66,14 +76,6 @@ app.use(router);
 //error middleware
 app.use(errorMiddleware);
 
-app.use(function (req, res, next) {
-  res.header("Access-Control-Allow-Origin", "*");
-  res.header(
-    "Access-Control-Allow-Headers",
-    "Origin, X-Requested-With, Content-Type, Accept, Cache-Control, Key, Access-Control-Allow-Origin"
-  );
-  next();
-});
 const __dirname = path.resolve();
 app.use("/resources", express.static(path.join(__dirname, "/public")));
 
