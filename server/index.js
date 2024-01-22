@@ -23,7 +23,17 @@ dbConnection();
 
 // middlename
 app.use(express.static("public"));
-app.use(cors({ origin: true, credentials: true }));
+// app.use(cors({ origin: true, credentials: true }));
+const corsOptions = {
+  origin: "https://workease-bese27c.vercel.app",
+  methods: "GET,HEAD,PUT,PATCH,POST,DELETE",
+  credentials: true,
+  preflightContinue: false,
+  optionsSuccessStatus: 204,
+};
+
+app.use(cors(corsOptions));
+
 app.use(xss());
 app.use(mongoSanitize());
 app.use(bodyParser.json());

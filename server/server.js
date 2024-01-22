@@ -23,11 +23,17 @@ dbConnection();
 
 // middlename
 app.use(express.static("public"));
-app.use(
-  cors({
-    origin: "https://workease-bese27c.vercel.app",
-  })
-);
+// app.use(cors({ origin: true, credentials: true }));
+const corsOptions = {
+  origin: "https://workease-bese27c.vercel.app",
+  methods: "GET,HEAD,PUT,PATCH,POST,DELETE",
+  credentials: true,
+  preflightContinue: false,
+  optionsSuccessStatus: 204,
+};
+
+app.use(cors(corsOptions));
+
 app.use(xss());
 app.use(mongoSanitize());
 app.use(bodyParser.json());
@@ -37,6 +43,23 @@ app.use(express.urlencoded({ extended: true }));
 app.use(bodyParser.json({ limit: "30mb", extended: true }));
 app.use(bodyParser.urlencoded({ limit: "30mb", extended: true }));
 app.use(morgan("dev"));
+
+app.use(function (req, res, next) {
+  req.connection.setNoDelay(true);
+  res.header(
+    "Access-Control-Allow-Headers",
+    "Origin, X-Requested-With, Content-Type, Accept"
+  );
+  res.header("Access-Control-Allow-Credentials", true);
+  res.header(
+    "Access-Control-Allow-Origin",
+    "https://workease-bese27c.vercel.app"
+  );
+
+  res.header("Access-Control-Expose-Headers", "agreementrequired");
+
+  next();
+});
 
 //configuration for multer
 const storage1 = multer.diskStorage({
@@ -62,23 +85,6 @@ app.post(`/upload-cv`, upload1.single("CV"), async (req, res) => {
 });
 app.use(router);
 
-//error middleware
-app.use(errorMiddleware);
-
-const __dirname = path.resolve();
-app.use("/resources", express.static(path.join(__dirname, "/public")));
-
-const storage = multer.diskStorage({
-  destination: function (req, file, cb) {
-    cb(null, "./public/"); // Specify the upload directory
-  },
-  filename: function (req, file, cb) {
-    cb(null, req.query.fileName); // Use the original file name
-  },
-});
-
-const upload = multer({ storage: storage });
-
 app.use(function (req, res, next) {
   // Website you wish to allow to connect
   res.setHeader("Access-Control-Allow-Origin", "*");
@@ -99,6 +105,23 @@ app.use(function (req, res, next) {
   // Pass to next layer of middleware
   next();
 });
+
+//error middleware
+app.use(errorMiddleware);
+
+const __dirname = path.resolve();
+app.use("/resources", express.static(path.join(__dirname, "/public")));
+
+const storage = multer.diskStorage({
+  destination: function (req, file, cb) {
+    cb(null, "./public/"); // Specify the upload directory
+  },
+  filename: function (req, file, cb) {
+    cb(null, req.query.fileName); // Use the original file name
+  },
+});
+
+const upload = multer({ storage: storage });
 
 app.post("/upload", upload.single("file"), (req, res) => {
   const file = req.file; // Access the uploaded file
