@@ -22,8 +22,10 @@ const PORT = process.env.PORT || 8800;
 dbConnection();
 
 // middlename
-app.use(express.static('public'));
-app.use(cors());
+app.use(express.static("public"));
+app.use(cors({
+  {origin: '*',
+}));
 app.use(xss());
 app.use(mongoSanitize());
 app.use(bodyParser.json());
@@ -37,39 +39,53 @@ app.use(morgan("dev"));
 //configuration for multer
 const storage1 = multer.diskStorage({
   destination: (req, file, cb) => {
-     cb(null, 'public/');
+    cb(null, "public/");
   },
   filename: (req, file, cb) => {
-     cb(null, req.query.userId ? `${req.query.userId}.pdf` : file.originalname);
-  }
+    cb(null, req.query.userId ? `${req.query.userId}.pdf` : file.originalname);
+  },
 });
-const upload1 = multer({storage: storage1});
-app.post(`/upload-cv`,upload1.single('CV'), async (req, res) => {
-  console.log(req.file)
-  try{
-    if(!req.file){
-    res.status(400).send("No File Provided");
-    return;
-  }
-  res.status(200).send("CV uploaded successfully")
-  }
-  catch(error){
-    res.status(400).send(error)
+const upload1 = multer({ storage: storage1 });
+app.post(`/upload-cv`, upload1.single("CV"), async (req, res) => {
+  console.log(req.file);
+  try {
+    if (!req.file) {
+      res.status(400).send("No File Provided");
+      return;
+    }
+    res.status(200).send("CV uploaded successfully");
+  } catch (error) {
+    res.status(400).send(error);
   }
 });
 app.use(router);
 
+app.use(function (req, res, next) {
+  // Website you wish to allow to connect
+  res.setHeader("Access-Control-Allow-Origin", "*");
 
+  // Request methods you wish to allow
+  res.setHeader(
+    "Access-Control-Allow-Methods",
+    "GET, POST, OPTIONS, PUT, PATCH, DELETE"
+  );
+
+  // Request headers you wish to allow
+  res.setHeader(
+    "Access-Control-Allow-Headers",
+    "X-Requested-With,content-type"
+  );
+  res.setHeader("Access-Control-Allow-Credentials", true);
+
+  // Pass to next layer of middleware
+  next();
+});
 
 //error middleware
 app.use(errorMiddleware);
 
-
 const __dirname = path.resolve();
-app.use(
-  "/resources",
-  express.static(path.join(__dirname, "/public"))
-);
+app.use("/resources", express.static(path.join(__dirname, "/public")));
 
 const storage = multer.diskStorage({
   destination: function (req, file, cb) {
