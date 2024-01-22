@@ -42,7 +42,7 @@ function Applications() {
           <h1 className="text-3xl dark:text-white">No Pending Applications</h1>
           <a
             className="text-xl hover:underline dark:text-white hover:text-blue-600"
-            href="https://workease-bese27.vercel.app/find-jobs"
+            href="https://workease-bese27c.vercel.app/find-jobs"
           >
             Continue Job Search
           </a>
@@ -140,7 +140,7 @@ const ApplicationCard = ({ application, length }) => {
                 Company:{" "}
                 <span className="font-normal hover:underline hover:text-blue-600">
                   <a
-                    href={`https://workease-bese27.vercel.app/company-profile/${job?.company?._id}`}
+                    href={`https://workease-bese27c.vercel.app/company-profile/${job?.company?._id}`}
                   >
                     {job?.company?.name}
                   </a>
