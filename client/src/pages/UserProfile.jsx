@@ -42,6 +42,7 @@ const UserForm = ({ open, setOpen }) => {
         token: user?.token,
         data: newData2,
         method: "PUT",
+        withCredentials: false,
       });
 
       if (res) {
