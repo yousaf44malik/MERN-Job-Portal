@@ -1,5 +1,5 @@
 import axios from "axios";
-const API_URL = "https://sc-sem-proj-dep.vercel.app/api-v1";
+const API_URL = "https://workease-server-woad.vercel.app/api-v1";
 
 export const API = axios.create({
   baseURL: API_URL,
@@ -88,9 +88,13 @@ export const handleCVUpload = async (CV, userId) => {
     const formData = new FormData();
     formData.append("CV", CV);
 
-    const res = await axios.post(`http://localhost:8800/upload-cv`, formData, {
-      params: { userId },
-    });
+    const res = await axios.post(
+      `https://workease-server-woad.vercel.app/upload-cv`,
+      formData,
+      {
+        params: { userId },
+      }
+    );
     return res?.data === "CV uploaded successfully";
   } catch (error) {
     console.log(error);

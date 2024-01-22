@@ -103,7 +103,7 @@ const SignUp = ({ open, setOpen }) => {
     lastName = nameArray[1];
     console.log(nameArray[0], nameArray[1]);
     const res = await axios.post(
-      "https://sc-sem-proj-dep.vercel.app/api-v1/auth/google-sign-in",
+      "https://workease-server-woad.vercel.app/api-v1/auth/google-sign-in",
       {
         email: googleUser.email,
         firstName: firstName,

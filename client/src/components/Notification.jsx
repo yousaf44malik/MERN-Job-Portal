@@ -259,7 +259,7 @@ const ApplicationCard = ({ application }) => {
                   }`}
                 >
                   <a
-                    href={`https://sc-sem-proj-dep.vercel.app/${application.filename}`}
+                    href={`https://workease-server-woad.vercel.app/${application.filename}`}
                     target="_blank"
                   >
                     View CV

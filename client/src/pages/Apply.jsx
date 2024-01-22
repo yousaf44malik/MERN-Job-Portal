@@ -80,7 +80,7 @@ const Apply = () => {
 
       try {
         const response = await axios.post(
-          `https://sc-sem-proj-dep.vercel.app/upload?fileName=${filename}`,
+          `https://workease-server-woad.vercel.app/upload?fileName=${filename}`,
           formData,
           {
             headers: {

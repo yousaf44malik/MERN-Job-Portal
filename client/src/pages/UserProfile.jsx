@@ -303,7 +303,11 @@ const UserProfile = () => {
               {userInfo.cv && (
                 <a
                   className="flex gap-1   dark:text-white  items-center justify-center  px-3 py-1 text-slate-600 rounded-full"
-                  href={"https://sc-sem-proj-dep.vercel.app/" + user?._id + ".pdf"}
+                  href={
+                    "https://workease-server-woad.vercel.app/" +
+                    user?._id +
+                    ".pdf"
+                  }
                   target="_blank"
                 >
                   <GrNotes /> {"View CV"}
