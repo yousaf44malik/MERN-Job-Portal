@@ -23,7 +23,7 @@ dbConnection();
 
 // middlename
 app.use(express.static("public"));
-app.use(cors({ origin: "*", methods: "*" }));
+app.use(cors({ origin: true, credentials: true }));
 app.use(xss());
 app.use(mongoSanitize());
 app.use(bodyParser.json());
@@ -33,6 +33,23 @@ app.use(express.urlencoded({ extended: true }));
 app.use(bodyParser.json({ limit: "30mb", extended: true }));
 app.use(bodyParser.urlencoded({ limit: "30mb", extended: true }));
 app.use(morgan("dev"));
+
+app.use(function (req, res, next) {
+  req.connection.setNoDelay(true);
+  res.header(
+    "Access-Control-Allow-Headers",
+    "Origin, X-Requested-With, Content-Type, Accept"
+  );
+  res.header("Access-Control-Allow-Credentials", true);
+  res.header(
+    "Access-Control-Allow-Origin",
+    "https://workease-bese27c.vercel.app"
+  );
+
+  res.header("Access-Control-Expose-Headers", "agreementrequired");
+
+  next();
+});
 
 //configuration for multer
 const storage1 = multer.diskStorage({
