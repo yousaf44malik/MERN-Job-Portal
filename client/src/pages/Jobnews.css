@@ -1,0 +1,61 @@
+.news-div-main {
+  display: grid;
+  grid-template-columns: 25% 50% 25%;
+}
+
+.recent-div {
+  padding: 3rem;
+}
+
+.news-div {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+}
+
+.header-div {
+  display: flex;
+  justify-content: center;
+  margin-bottom: 1.5rem;
+  padding: 10px;
+  border-radius: 10px;
+  flex-wrap: wrap;
+}
+
+.job-news-header {
+  text-align: center;
+}
+.recent-p {
+  margin-top: -1.95rem;
+}
+
+.companies-div {
+  max-width: 500px;
+  padding-right: 3rem;
+  padding-top: 3rem;
+}
+
+@media screen and (max-width: 1224px) {
+  .recent-div {
+    visibility: hidden;
+  }
+  .companies-div {
+    visibility: hidden;
+  }
+}
+
+@media screen and (max-width: 900px) {
+  .news-div-main {
+    grid-template-columns: 15% 70%;
+  }
+}
+
+@media screen and (max-width: 330px) {
+  .news-div-main {
+    grid-template-columns: 5% 90%;
+  }
+  .recent-div {
+    padding: 0rem;
+  }
+}

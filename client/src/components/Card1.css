@@ -1,0 +1,53 @@
+.image-skeleton {
+  width: 3rem !important;
+  height: 3rem !important;
+}
+
+.skeleton-title {
+  width: 10.3rem !important;
+  height: 1rem !important;
+}
+
+.skeleton-location {
+  width: 5rem !important;
+  height: 0.7rem !important;
+}
+
+.p-skeleton {
+  width: 14.3rem !important;
+  height: 0.5rem !important;
+}
+
+.full-time-skeleton {
+  width: 3.5rem !important;
+  height: 1rem !important;
+}
+
+.time-skeleton {
+  width: 5rem !important;
+  height: 0.8rem !important;
+}
+
+@media screen and (max-width: 768px) {
+  .p-skeleton {
+    width: 95% !important;
+    height: 0.5rem !important;
+  }
+}
+@media screen and (max-width: 768px) {
+  .p-skeleton {
+    width: 95% !important;
+    height: 0.5rem !important;
+  }
+}
+@media screen and (max-width: 280px) {
+  .skeleton-title {
+    width: 8rem !important;
+    height: 1rem !important;
+  }
+}
+
+.image-skeleton1 {
+  width: 3rem !important;
+  height: 3rem !important;
+}

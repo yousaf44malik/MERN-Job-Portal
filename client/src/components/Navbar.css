@@ -1,0 +1,12 @@
+@media screen and (max-width: 1200px) and (min-width: 1024px) {
+    .custom-modal {
+      max-width: 100% !important; /* Adjust width for screens less than 1200px */
+    }
+  }
+  
+  @media screen and (max-width: 1024px) and (min-width: 768px) {
+    .custom-modal-small {
+      margin-top: 1.5rem;
+      left: 5%; /* Adjust width for screens less than 1200px */
+    }
+  }
