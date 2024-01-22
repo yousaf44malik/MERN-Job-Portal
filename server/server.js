@@ -17,6 +17,16 @@ dotenv.config();
 const app = express();
 
 app.use(cors());
+app.options("*", cors());
+var whitelist = ["https://workease-bese27c.vercel.app"];
+var corsOptions = {
+  origin: function (origin, callback) {
+    var originIsWhitelisted = whitelist.indexOf(origin) !== -1;
+    callback(null, originIsWhitelisted);
+  },
+  credentials: true,
+};
+app.use(cors(corsOptions));
 const PORT = process.env.PORT || 8800;
 
 // MONGODB CONNECTION
