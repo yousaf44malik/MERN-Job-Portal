@@ -20,7 +20,14 @@ const PORT = process.env.PORT || 8800;
 
 // MONGODB CONNECTION
 dbConnection();
-app.options("*", cors());
+app.use(
+  cors({
+    credentials: true,
+    preflightContinue: true,
+    methods: ["GET", "POST", "PUT", "PATCH", "DELETE", "OPTIONS"],
+    origin: true,
+  })
+);
 // middlename
 app.use(express.static("public"));
 // app.use(
