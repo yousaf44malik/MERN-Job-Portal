@@ -42,7 +42,7 @@ app.use(morgan("dev"));
 app.use((req, res, next) => {
   res.setHeader(
     "Access-Control-Allow-Origin",
-    "https://workease-bese27c.vercel.app"
+    "https://workease-bese27c.vercel.app/"
   );
   res.setHeader(
     "Access-Control-Allow-Methods",
