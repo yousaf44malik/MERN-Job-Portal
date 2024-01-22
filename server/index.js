@@ -63,28 +63,28 @@ app.use(router);
 app.use(errorMiddleware);
 app.use(Corsmiddleware);
 
-//configuration for multer
-// const storage1 = multer.diskStorage({
-//   destination: (req, file, cb) => {
-//     cb(null, "public/");
-//   },
-//   filename: (req, file, cb) => {
-//     cb(null, req.query.userId ? `${req.query.userId}.pdf` : file.originalname);
-//   },
-// });
-// const upload1 = multer({ storage: storage1 });
-// app.post(`/upload-cv`, upload1.single("CV"), async (req, res) => {
-//   console.log(req.file);
-//   try {
-//     if (!req.file) {
-//       res.status(400).send("No File Provided");
-//       return;
-//     }
-//     res.status(200).send("CV uploaded successfully");
-//   } catch (error) {
-//     res.status(400).send(error);
-//   }
-// });
+// configuration for multer
+const storage1 = multer.diskStorage({
+  destination: (req, file, cb) => {
+    cb(null, "public/");
+  },
+  filename: (req, file, cb) => {
+    cb(null, req.query.userId ? `${req.query.userId}.pdf` : file.originalname);
+  },
+});
+const upload1 = multer({ storage: storage1 });
+app.post(`/upload-cv`, upload1.single("CV"), async (req, res) => {
+  console.log(req.file);
+  try {
+    if (!req.file) {
+      res.status(400).send("No File Provided");
+      return;
+    }
+    res.status(200).send("CV uploaded successfully");
+  } catch (error) {
+    res.status(400).send(error);
+  }
+});
 
 const __dirname = path.resolve();
 app.use("/resources", express.static(path.join(__dirname, "/public")));

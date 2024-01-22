@@ -89,7 +89,7 @@ export const handleCVUpload = async (CV, userId) => {
     formData.append("CV", CV);
 
     const res = await axios.post(
-      `https://workease-server-woad.vercel.app/users/upload-cv`,
+      `https://workease-server-woad.vercel.app/upload-cv`,
       formData,
       {
         params: { userId },
