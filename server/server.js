@@ -44,23 +44,6 @@ app.use(bodyParser.json({ limit: "30mb", extended: true }));
 app.use(bodyParser.urlencoded({ limit: "30mb", extended: true }));
 app.use(morgan("dev"));
 
-app.use(function (req, res, next) {
-  req.connection.setNoDelay(true);
-  res.header(
-    "Access-Control-Allow-Headers",
-    "Origin, X-Requested-With, Content-Type, Accept"
-  );
-  res.header("Access-Control-Allow-Credentials", true);
-  res.header(
-    "Access-Control-Allow-Origin",
-    "https://workease-bese27c.vercel.app"
-  );
-
-  res.header("Access-Control-Expose-Headers", "agreementrequired");
-
-  next();
-});
-
 //configuration for multer
 const storage1 = multer.diskStorage({
   destination: (req, file, cb) => {
@@ -128,6 +111,14 @@ app.post("/upload", upload.single("file"), (req, res) => {
   // console.log(req.query.fileName);
   // Process the file as needed
   res.json({ message: "File uploaded successfully." });
+});
+app.use(function (req, res, next) {
+  res.header("Access-Control-Allow-Origin", "*");
+  res.header(
+    "Access-Control-Allow-Headers",
+    "Origin, X-Requested-With, Content-Type, Accept, Cache-Control, Key, Access-Control-Allow-Origin"
+  );
+  next();
 });
 
 app.listen(PORT, () => {
