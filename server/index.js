@@ -23,7 +23,11 @@ dbConnection();
 
 // middlename
 app.use(express.static("public"));
-app.use(cors());
+app.use(
+  cors({
+    origin: "https://workease-bese27c.vercel.app",
+  })
+);
 
 app.use(xss());
 app.use(mongoSanitize());
