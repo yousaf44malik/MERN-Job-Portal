@@ -6,13 +6,7 @@ export const API = axios.create({
   responseType: "json",
 });
 
-export const apiRequest = async ({
-  url,
-  token,
-  data,
-  method,
-  withCredentials,
-}) => {
+export const apiRequest = async ({ url, token, data, method }) => {
   try {
     const result = await API(url, {
       method: method,
@@ -20,7 +14,6 @@ export const apiRequest = async ({
       headers: {
         "content-type": "application/json",
         Authorization: token ? `Bearer ${token}` : "",
-        withCredentials: withCredentials ? withCredentials : true,
       },
     });
     return result?.data;
@@ -100,6 +93,7 @@ export const handleCVUpload = async (CV, userId) => {
       formData,
       {
         params: { userId },
+        withCredentials: false,
       }
     );
     return res?.data === "CV uploaded successfully";
