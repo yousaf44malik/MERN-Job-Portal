@@ -20,7 +20,7 @@ const PORT = process.env.PORT || 8800;
 
 // MONGODB CONNECTION
 dbConnection();
-
+app.options("*", cors());
 // middlename
 app.use(express.static("public"));
 // app.use(
@@ -29,15 +29,15 @@ app.use(express.static("public"));
 //   })
 // );
 
-var whitelist = ["https://workease-bese27c.vercel.app"];
-var corsOptions = {
-  origin: function (origin, callback) {
-    var originIsWhitelisted = whitelist.indexOf(origin) !== -1;
-    callback(null, originIsWhitelisted);
-  },
-  credentials: true,
-};
-app.use(cors(corsOptions));
+// var whitelist = ["https://workease-bese27c.vercel.app"];
+// var corsOptions = {
+//   origin: function (origin, callback) {
+//     var originIsWhitelisted = whitelist.indexOf(origin) !== -1;
+//     callback(null, originIsWhitelisted);
+//   },
+//   credentials: true,
+// };
+// app.use(cors(corsOptions));
 
 app.use(xss());
 app.use(mongoSanitize());
