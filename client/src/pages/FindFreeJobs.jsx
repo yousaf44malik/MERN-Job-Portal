@@ -48,7 +48,7 @@ const FindFreeJobs = () => {
 
     try {
       const response = await axios.get(
-        "http://localhost:8800/find-jobs-home" + newUrl
+        "https://workease-server-woad.vercel.app/find-jobs-home" + newUrl
       );
 
       console.log(response.data);
