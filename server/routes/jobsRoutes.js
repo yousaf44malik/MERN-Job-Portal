@@ -7,8 +7,9 @@ import {
   getApplications,
   getJobById,
   getJobPosts,
+  getJobPostsHome,
   updateJob,
-  updateJobApplication
+  updateJobApplication,
 } from "../controllers/jobController.js";
 
 const router = express.Router();
@@ -25,6 +26,8 @@ router.put("/update-job/:jobId", userAuth, updateJob);
 
 // GET JOB POST
 router.get("/find-jobs", getJobPosts);
+router.get("/find-jobs-home", getJobPostsHome);
+
 router.get("/get-job-detail/:id", getJobById);
 
 // DELETE JOB POST
