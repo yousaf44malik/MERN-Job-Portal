@@ -5,7 +5,7 @@ import { CgProfile } from "react-icons/cg";
 import { HiMenuAlt3 } from "react-icons/hi";
 import { AiOutlineClose, AiOutlineLogout } from "react-icons/ai";
 import { MdLightMode, MdDarkMode } from "react-icons/md";
-import { Link, useLocation } from "react-router-dom";
+import { Link, useLocation, useNavigate } from "react-router-dom";
 import CustomButton from "./CustomButton";
 import { users } from "../utils/data";
 import { useSelector, useDispatch } from "react-redux";
@@ -121,12 +121,21 @@ function MenuList({ user, onClick }) {
 const Navbar = ({ toggleTheme }) => {
   const location = useLocation();
   const isUserAuthPage = location.pathname === "/user-auth";
-
+  const navigate = useNavigate();
   const { user } = useSelector((state) => state.user);
   const [isOpen, setIsOpen] = useState(false);
   const [openModal, setOpenModal] = useState(false);
   const [openLargeModal, setOpenLargeModal] = useState(false);
   const [theme, setTheme] = useState(localStorage.getItem("theme") || "light");
+
+  const openauth = () => {
+    if (window.location.href.includes("auth")) {
+      console.log("here");
+      window.location.reload();
+    } else {
+      navigate("/user-auth");
+    }
+  };
 
   const handleCloseNavbar = () => {
     setIsOpen((prev) => !prev);
@@ -276,10 +285,11 @@ const Navbar = ({ toggleTheme }) => {
                   )}
                 </button>
               </div>
-              <Link to="/">
+              <Link to="user-auth">
                 <CustomButton
+                  onClick={openauth}
                   title="Sign In"
-                  containerStyles="text-blue-600 py-1.5 px-5 focus:outline-none hover:bg-blue-700 hover:text-white rounded-full text-base border border-blue-600 dark:border-white dark:text-white"
+                  containerStyles={`text-blue-600 py-1.5 px-5 focus:outline-none hover:bg-blue-700 hover:text-white rounded-full text-base border border-blue-600`}
                 />
               </Link>
             </div>
@@ -377,6 +387,7 @@ const Navbar = ({ toggleTheme }) => {
               {!user?.token ? (
                 <a href="/user-auth">
                   <CustomButton
+                    onClick={openauth}
                     title="Sign In"
                     containerStyles={`text-blue-600 py-1.5 px-5 focus:outline-none hover:bg-blue-700 hover:text-white rounded-full text-base border border-blue-600`}
                   />

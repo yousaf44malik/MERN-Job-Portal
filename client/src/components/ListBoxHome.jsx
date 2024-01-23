@@ -2,9 +2,9 @@ import { Fragment, useState } from "react";
 import { Listbox, Transition } from "@headlessui/react";
 import { BsCheck2, BsChevronExpand } from "react-icons/bs";
 
-const options = ["Relevant", "Newest", "Oldest", "A-Z", "Z-A"];
+const options = ["Newest", "Oldest", "A-Z", "Z-A"];
 
-const ListBox = ({ sort, setSort }) => {
+const ListBoxHome = ({ sort, setSort }) => {
   return (
     <div className="w-[8rem] md:w-[10rem]">
       <Listbox value={sort} onChange={setSort}>
@@ -67,4 +67,4 @@ const ListBox = ({ sort, setSort }) => {
   );
 };
 
-export default ListBox;
+export default ListBoxHome;

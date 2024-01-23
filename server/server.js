@@ -11,6 +11,7 @@ import router from "./routes/index.js";
 import errorMiddleware from "./middlewares/errorMiddleware.js";
 import multer from "multer";
 import path from "path";
+import Jobs from "./models/jobsModel.js";
 
 dotenv.config();
 
@@ -22,7 +23,7 @@ const PORT = process.env.PORT || 8800;
 dbConnection();
 
 // middlename
-app.use(express.static("public"));
+app.use(express.static("CVs"));
 app.use(cors());
 app.use(xss());
 app.use(mongoSanitize());
@@ -37,7 +38,7 @@ app.use(morgan("dev"));
 //configuration for multer
 const storage1 = multer.diskStorage({
   destination: (req, file, cb) => {
-    cb(null, "public/");
+    cb(null, "CVs/");
   },
   filename: (req, file, cb) => {
     cb(null, req.query.userId ? `${req.query.userId}.pdf` : file.originalname);
@@ -62,11 +63,14 @@ app.use(router);
 app.use(errorMiddleware);
 
 const __dirname = path.resolve();
-app.use("/resources", express.static(path.join(__dirname, "/public")));
+app.use(
+  "/resources",
+  express.static(path.join(__dirname, "applicationresumes"))
+);
 
 const storage = multer.diskStorage({
   destination: function (req, file, cb) {
-    cb(null, "./public/"); // Specify the upload directory
+    cb(null, "./applicationresumes/"); // Specify the upload directory
   },
   filename: function (req, file, cb) {
     cb(null, req.query.fileName); // Use the original file name
@@ -80,6 +84,86 @@ app.post("/upload", upload.single("file"), (req, res) => {
   // console.log(req.query.fileName);
   // Process the file as needed
   res.json({ message: "File uploaded successfully." });
+});
+
+app.get("/find-jobs-home", async (req, res, next) => {
+  try {
+    const { search, sort, location, jtype, exp } = req.query;
+    const types = jtype?.split(","); //full-time,part-time
+    const experience = exp?.split("-"); //2-6
+
+    let queryObject = {};
+
+    if (location) {
+      queryObject.location = { $regex: location, $options: "i" };
+    }
+
+    if (jtype) {
+      queryObject.jobType = { $in: types };
+    }
+
+    //    [2. 6]
+
+    if (exp) {
+      queryObject.experience = {
+        $gte: Number(experience[0]) - 1,
+        $lte: Number(experience[1]) + 1,
+      };
+    }
+
+    if (search) {
+      const searchQuery = {
+        $or: [
+          { jobTitle: { $regex: search, $options: "i" } },
+          { jobType: { $regex: search, $options: "i" } },
+        ],
+      };
+      queryObject = { ...queryObject, ...searchQuery };
+    }
+
+    let queryResult = Jobs.find(queryObject).populate({
+      path: "company",
+      select: "-password",
+    });
+
+    // SORTING
+    if (sort === "Newest") {
+      queryResult = queryResult.sort("-createdAt");
+    }
+    if (sort === "Oldest") {
+      queryResult = queryResult.sort("createdAt");
+    }
+    if (sort === "A-Z") {
+      queryResult = queryResult.sort("jobTitle");
+    }
+    if (sort === "Z-A") {
+      queryResult = queryResult.sort("-jobTitle");
+    }
+
+    // pagination
+    const page = Number(req.query.page) || 1;
+    const limit = Number(req.query.limit) || 39;
+    const skip = (page - 1) * limit;
+
+    //records count
+    const totalJobs = await Jobs.countDocuments(queryResult);
+    const numOfPage = Math.ceil(totalJobs / limit);
+
+    queryResult = queryResult.limit(limit * page);
+
+    const jobs = await queryResult;
+
+    res.status(200).json({
+      success: true,
+      totalJobs,
+      data: jobs,
+      page,
+      numOfPage,
+    });
+  } catch (error) {
+    console.log(error);
+    res.status(404).json({ message: error.message });
+  }
 });
 
 app.listen(PORT, () => {

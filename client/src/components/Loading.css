@@ -11,6 +11,7 @@
   justify-content: center;
   align-items: center;
   left: 42%;
+  margin-top: 2rem;
 }
 
 #wifi-loader svg {

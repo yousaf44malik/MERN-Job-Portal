@@ -18,6 +18,8 @@ import { SkeletonTheme } from "react-loading-skeleton";
 import Applications from "./pages/Applications";
 import { useState } from "react";
 import ScrollToTop from "./components/ScrollToTop";
+import FindFreeJobs from "./pages/FindFreeJobs";
+import JobDetailFree from "./pages/JobDetailFree";
 
 function Layout() {
   const { user } = useSelector((state) => state.user);
@@ -26,7 +28,14 @@ function Layout() {
   return user?.token ? (
     <Outlet />
   ) : (
-    <Navigate to="/user-auth" state={{ from: location }} replace />
+    <Routes>
+      <Route
+        path="/"
+        element={<FindFreeJobs />} // Render FindJobs component for home when user is not present
+      />
+
+      {/* <Navigate to="/user-auth" state={{ from: location }} replace /> */}
+    </Routes>
   );
 }
 
@@ -72,11 +81,15 @@ function App() {
             <Route path={"/job-detail/:id"} element={<JobDetail />} />
             <Route path={"/apply/:id"} element={<Apply />} />
           </Route>
-
+          <Route
+            path="/jobs-detail/:id"
+            element={<JobDetailFree />} // Render FindJobs component for home when user is not present
+          />
           <Route path="/about-us" element={<About />} />
+
           <Route path="/user-auth" element={<AuthPage />} />
         </Routes>
-        {user && <ScrollToTop />}
+        <ScrollToTop />
         {user && <Footer />}
       </SkeletonTheme>
     </main>

@@ -34,7 +34,9 @@
     "react-redux": "^8.1.1",
     "react-responsive-modal": "^6.4.2",
     "react-router-dom": "^6.14.1",
-    "react-tweet": "^3.2.0"
+    "react-tweet": "^3.2.0",
+    "sass": "^1.70.0",
+    "sweetalert2": "^11.10.4"
   },
   "devDependencies": {
     "@babel/core": "^7.23.7",

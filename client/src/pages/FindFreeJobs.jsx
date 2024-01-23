@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { redirect, useLocation, useNavigate } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 import { BiBriefcaseAlt2 } from "react-icons/bi";
 import { BsStars } from "react-icons/bs";
 import { MdOutlineKeyboardArrowDown } from "react-icons/md";
@@ -13,9 +13,11 @@ import { useSelector } from "react-redux";
 import axios from "axios";
 import Skeleton from "react-loading-skeleton";
 import "react-loading-skeleton/dist/skeleton.css";
+import JobCardHome from "../components/JobCardHome";
+import ListBoxHome from "../components/ListBoxHome";
 
-const FindJobs = () => {
-  const [sort, setSort] = useState("Relevant");
+const FindFreeJobs = () => {
+  const [sort, setSort] = useState("Newest");
   const [page, setPage] = useState(1);
   const [numPage, setNumPage] = useState(1);
   const [recordCount, setRecordCount] = useState(0);
@@ -30,34 +32,6 @@ const FindJobs = () => {
   const [isFetching, setIsFetching] = useState(true);
   const location = useLocation();
   const navigate = useNavigate();
-  const sortArrayByString = (searchString, dataArray) => {
-    const searchWords = searchString?.toLowerCase().split(" ");
-
-    return dataArray.sort((a, b) => {
-      const aTitleWords = a.jobTitle?.toLowerCase().split(" ");
-      const bTitleWords = b.jobTitle?.toLowerCase().split(" ");
-
-      const aMatch = searchWords.some((word) => aTitleWords.includes(word));
-      const bMatch = searchWords.some((word) => bTitleWords.includes(word));
-
-      if (aMatch && !bMatch) {
-        return -1;
-      } else if (!aMatch && bMatch) {
-        return 1;
-      }
-
-      if (b.vacancies !== a.vacancies) {
-        return b.vacancies - a.vacancies;
-      }
-      if (a.application.length !== b.application.length) {
-        return a.application.length - b.application.length;
-      }
-      if (a.experience !== b.experience) {
-        return a.experience - b.experience;
-      }
-      return 0;
-    });
-  };
 
   const fetchJobs = async () => {
     setIsFetching(true);
@@ -73,19 +47,18 @@ const FindJobs = () => {
     });
 
     try {
-      const res = await apiRequest({
-        url: "/jobs" + newUrl,
-        method: "GET",
-      });
-      console.log(res);
-      setNumPage(res?.numOfPage);
-      setRecordCount(res?.totalJobs);
-      if (user?.jobTitle && sort == "Relevant") {
-        const sortedData = sortArrayByString(user?.jobTitle, res?.data);
-        setData(sortedData);
-      } else {
-        setData(res?.data);
-      }
+      const response = await axios.get(
+        "http://localhost:8800/find-jobs-home" + newUrl
+      );
+
+      console.log(response.data);
+
+      setNumPage(response.data?.numOfPage);
+      setRecordCount(response.data?.totalJobs);
+      setData(response.data?.data);
+
+      console.log(response.data?.data);
+
       setTimeout(() => {
         setIsFetching(false);
       }, 100);
@@ -135,16 +108,6 @@ const FindJobs = () => {
       setFilterExp(`${newExpVal[0]}-${newExpVal[newExpVal?.length - 1]}`);
     }
   }, [expVal]);
-
-  useEffect(() => {
-    const redirectid = localStorage.getItem("redirect");
-    if (redirectid) {
-      setTimeout(() => {
-        navigate(`/job-detail/${redirectid}`);
-        localStorage.removeItem("redirect");
-      }, 500);
-    } else return;
-  }, []);
 
   useEffect(() => {
     document.title = "Home - Find Jobs";
@@ -242,7 +205,7 @@ const FindJobs = () => {
                 Sort By:
               </p>
 
-              <ListBox sort={sort} setSort={setSort} />
+              <ListBoxHome sort={sort} setSort={setSort} />
             </div>
           </div>
 
@@ -255,7 +218,7 @@ const FindJobs = () => {
                   logo: job?.company?.profileUrl,
                   ...job,
                 };
-                return <JobCard job={newJob} key={index} />;
+                return <JobCardHome job={newJob} key={index} />;
               })}
           </div>
 
@@ -274,4 +237,4 @@ const FindJobs = () => {
   );
 };
 
-export default FindJobs;
+export default FindFreeJobs;
