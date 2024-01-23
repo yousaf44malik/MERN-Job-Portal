@@ -31,11 +31,11 @@ const UserForm = ({ open, setOpen }) => {
   const onSubmit = async (data) => {
     setIsSubmitting(true);
     try {
-      const isCVUploaded = CV && (await handleCVUpload(CV, user?._id));
+      const cvURI = CV && (await handleFileUpload(CV));
       const uri = profileImage && (await handleFileUpload(profileImage));
 
       const newData = uri ? { ...data, profileUrl: uri } : data;
-      const newData2 = isCVUploaded ? { ...newData, cv: true } : newData;
+      const newData2 = cvURI ? { ...newData, cvURL: cvURI } : newData;
 
       const res = await apiRequest({
         url: "/users/update-user",
@@ -300,12 +300,10 @@ const UserProfile = () => {
               <p className="flex gap-1   dark:text-white  items-center justify-center  px-3 py-1 text-slate-600 rounded-full">
                 <FiPhoneCall /> {userInfo?.contact ?? "No Contact"}
               </p>
-              {userInfo.cv && (
+              {userInfo.cvUrl && (
                 <a
                   className="flex gap-1   dark:text-white  items-center justify-center  px-3 py-1 text-slate-600 rounded-full"
-                  href={
-                    "https://sc-sem-proj-dep.vercel.app/" + user?._id + ".pdf"
-                  }
+                  href={userInfo.cvUrl}
                   target="_blank"
                 >
                   <GrNotes /> {"View CV"}

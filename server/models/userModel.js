@@ -33,7 +33,6 @@ const userSchema = new mongoose.Schema(
     cvUrl: { type: String },
     jobTitle: { type: String },
     about: { type: String },
-    cv: { type: Boolean },
     applications: { type: Array },
   },
   { timestamps: true }

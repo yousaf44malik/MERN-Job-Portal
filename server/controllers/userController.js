@@ -15,6 +15,7 @@ export const updateUser = async (req, res, next) => {
     about,
     cv,
     jobId,
+    cvURL,
   } = req.body;
   const hasCV = cv;
   console.log(jobId);
@@ -43,7 +44,7 @@ export const updateUser = async (req, res, next) => {
         jobTitle,
         about,
         _id: id,
-        cv: hasCV,
+        cvUrl: cvURL,
         $push: { applications: jobId },
       };
     } else {
@@ -57,7 +58,7 @@ export const updateUser = async (req, res, next) => {
         jobTitle,
         about,
         _id: id,
-        cv: hasCV,
+        cvUrl: cvURL,
       };
     }
 
