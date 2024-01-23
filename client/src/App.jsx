@@ -20,6 +20,7 @@ import { useState } from "react";
 import ScrollToTop from "./components/ScrollToTop";
 import FindFreeJobs from "./pages/FindFreeJobs";
 import JobDetailFree from "./pages/JobDetailFree";
+import NotFound from "./pages/NotFound";
 
 function Layout() {
   const { user } = useSelector((state) => state.user);
