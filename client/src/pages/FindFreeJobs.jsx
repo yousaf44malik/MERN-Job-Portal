@@ -52,13 +52,9 @@ const FindFreeJobs = () => {
           newUrl
       );
 
-      console.log(response.data);
-
       setNumPage(response.data?.numOfPage);
       setRecordCount(response.data?.totalJobs);
       setData(response.data?.data);
-
-      console.log(response.data?.data);
 
       setTimeout(() => {
         setIsFetching(false);

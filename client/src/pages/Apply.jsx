@@ -43,7 +43,6 @@ const Apply = () => {
   };
 
   useEffect(() => {
-    console.log(user);
     setAppliedFunction();
     id && getJobDetails();
     document.title = "Apply for job";
@@ -68,8 +67,6 @@ const Apply = () => {
   const [hasApplied, setHasApplied] = useState(false);
 
   const onSubmit = async (data) => {
-    console.log(data);
-    console.log(user);
     const filename = `${user.email}-resume-${id}.pdf`;
     const formData = new FormData();
     const applicantName = `${user.firstName} ${user.lastName}`;
@@ -88,8 +85,6 @@ const Apply = () => {
             },
           }
         );
-
-        console.log(response.data);
       } catch (error) {
         console.error("Error uploading file:", error);
       }
@@ -108,10 +103,8 @@ const Apply = () => {
       interviewTime: "",
       user: { userId: user._id },
     };
-    console.log(newData);
 
     try {
-      console.log(user);
       const res = await apiRequest({
         url: `/jobs/job-application`,
         data: newData,
@@ -137,7 +130,6 @@ const Apply = () => {
       setIsLoading(false);
     } catch (error) {
       console.log(error);
-      console.log(newData);
       setIsLoading(false);
     }
   };
@@ -149,7 +141,6 @@ const Apply = () => {
   };
 
   const updateUserApplications = async () => {
-    console.log("Update User Applications");
     const jobId = id;
 
     try {

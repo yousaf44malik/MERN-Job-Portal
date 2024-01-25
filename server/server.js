@@ -46,7 +46,6 @@ const storage1 = multer.diskStorage({
 });
 const upload1 = multer({ storage: storage1 });
 app.post(`/upload-cv`, upload1.single("CV"), async (req, res) => {
-  console.log(req.file);
   try {
     if (!req.file) {
       res.status(400).send("No File Provided");

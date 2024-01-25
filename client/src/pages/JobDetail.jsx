@@ -26,7 +26,6 @@ const JobDetail = () => {
       });
 
       setJob(res?.data);
-      console.log(res?.similarJobs);
       setSimilarJobs(res?.similarJobs);
       setIsFetching(false);
     } catch (error) {

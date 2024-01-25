@@ -101,7 +101,6 @@ const SignUp = ({ open, setOpen }) => {
     const nameArray = googleUser.name.split(" ");
     firstName = nameArray[0];
     lastName = nameArray[1];
-    console.log(nameArray[0], nameArray[1]);
     const res = await axios.post(
       "https://workease-server-woad.vercel.app/api-v1/auth/google-sign-in",
       {
@@ -111,7 +110,6 @@ const SignUp = ({ open, setOpen }) => {
         profileUrl: googleUser.picture,
       }
     );
-    console.log(res);
     if (res?.status === "falied") {
       setErrMsg(res?.message);
       toast.dismiss();

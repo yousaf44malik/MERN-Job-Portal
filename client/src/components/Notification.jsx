@@ -31,7 +31,6 @@ const ApplicationCard = ({ application }) => {
         method: "GET",
       });
       setJobDetail(res?.data);
-      console.log(res?.data);
       setIsFetching(false);
     } catch (error) {
       console.log(error);
@@ -47,10 +46,9 @@ const ApplicationCard = ({ application }) => {
     return extractedEmail;
   };
   const handleDeclinePressed = async () => {
-    console.log("Before Declined Pressed", application);
     const { status, ...data } = application;
     data.status = "declined";
-    console.log(data);
+
     const res = await apiRequest({
       url: `/jobs/update-application`,
       data: data,
@@ -138,7 +136,6 @@ const ApplicationCard = ({ application }) => {
           position: "top-right",
         });
       } else {
-        console.log("HELLO");
         toast.dismiss();
 
         const email = extractEmail(application?.filename);
@@ -317,10 +314,9 @@ const Notification = () => {
           url: `/jobs/applications?companyId=${companyId}`,
           method: "GET",
         });
-        console.log(res.data);
 
         setApplications(res.data);
-        console.log(applications);
+
         getData(false);
       } catch (error) {
         console.log(error);
@@ -332,9 +328,7 @@ const Notification = () => {
     applications.map((application, index) => {
       application.application.map((singleApplication, index) => {
         //singleApplication is array of object of one job
-        console.log(singleApplication);
         singleApplication.map((application, index) => {
-          console.log(application);
           setFinalApplications((prev) => [...prev, application]);
         });
       });

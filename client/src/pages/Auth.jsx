@@ -14,7 +14,6 @@ const Auth = () => {
   let from = location?.state?.from?.pathname || "/";
 
   if (user.token) {
-    console.log(user.token);
     return window.location.replace(from);
   }
   useEffect(() => {

@@ -3,7 +3,6 @@ import Users from "../models/userModel.js";
 import Jobs from "../models/jobsModel.js";
 
 export const updateUser = async (req, res, next) => {
-  console.log(req.body);
   const {
     firstName,
     lastName,
@@ -18,8 +17,6 @@ export const updateUser = async (req, res, next) => {
     cvURL,
   } = req.body;
   const hasCV = cv;
-  console.log(jobId);
-  console.log(profileUrl);
   try {
     // if (!firstName || !lastName || !email || !contact || !jobTitle || !about) {
     //   next("Please provide all required fields");
@@ -64,8 +61,6 @@ export const updateUser = async (req, res, next) => {
 
     const user = await Users.findByIdAndUpdate(id, updateUser, { new: true });
 
-    console.log(user);
-
     const token = user.createJWT();
 
     user.password = undefined;
@@ -77,7 +72,6 @@ export const updateUser = async (req, res, next) => {
       token,
     });
   } catch (error) {
-    console.log(error);
     res.status(404).json({ message: error.message });
   }
 };
@@ -102,7 +96,6 @@ export const getUser = async (req, res, next) => {
       user: user,
     });
   } catch (error) {
-    console.log(error);
     res.status(500).json({
       message: "auth error",
       success: false,
@@ -121,18 +114,15 @@ export const getUserApplications1 = async (req, res) => {
     const userApplications = job.application.filter(
       (currAppl) => currAppl.user.userId == userId
     );
-    console.log(userApplications);
     // console.log(job.application[0].user.userId)
     returningApplications.push(job);
   });
-  console.log("Returning Application", returningApplications);
 };
 export const getUserApplications = async (req, res) => {
   const userId = req.body.user.userId;
   let returningApplications = [];
 
   const user = await Users.findById(userId);
-  console.log("UserApplications", user.applications);
   for (let i = 0; i < user.applications.length; i++) {
     let job = await Jobs.findById(user.applications[i]);
     // console.log("JOB APPLICATION",job.application)

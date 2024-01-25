@@ -130,7 +130,6 @@ const Navbar = ({ toggleTheme }) => {
 
   const openauth = () => {
     if (window.location.href.includes("auth")) {
-      console.log("here");
       window.location.reload();
     } else {
       navigate("/user-auth");

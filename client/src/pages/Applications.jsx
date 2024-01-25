@@ -21,7 +21,6 @@ function Applications() {
         token: user?.token,
         method: "GET",
       });
-      console.log(res?.data);
       setApplications(res?.data);
       setIsFetching(false);
     } catch (err) {
@@ -69,13 +68,11 @@ const ApplicationCard = ({ application, length }) => {
   const [isFetching, setIsFetching] = useState(true);
 
   const getJobDetails = async () => {
-    console.log(application?.jobId);
     try {
       const res = await apiRequest({
         url: "/jobs/get-job-detail/" + application.jobId,
         method: "GET",
       });
-      console.log(res?.data);
       setJob(res?.data);
       setTimeout(() => {
         setIsFetching(false);

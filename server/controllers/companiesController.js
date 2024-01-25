@@ -48,7 +48,6 @@ export const register = async (req, res, next) => {
       token,
     });
   } catch (error) {
-    console.log(error);
     res.status(404).json({ message: error.message });
   }
 };
@@ -268,31 +267,31 @@ export const getCompanyJobListing = async (req, res, next) => {
 
 // GET SINGLE COMPANY
 export const getCompanyById = async (req, res, next) => {
-    try {
-      const { id } = req.params;
+  try {
+    const { id } = req.params;
 
-      const company = await Companies.findById({ _id: id }).populate({
-        path: "jobPosts",
-        options: {
-          sort: "-_id",
-        },
+    const company = await Companies.findById({ _id: id }).populate({
+      path: "jobPosts",
+      options: {
+        sort: "-_id",
+      },
+    });
+
+    if (!company) {
+      return res.status(200).send({
+        message: "Company Not Found",
+        success: false,
       });
-
-      if (!company) {
-        return res.status(200).send({
-          message: "Company Not Found",
-          success: false,
-        });
-      }
-
-      company.password = undefined;
-
-      res.status(200).json({
-        success: true,
-        data: company,
-      });
-    } catch (error) {
-      console.log(error);
-      res.status(404).json({ message: error.message });
     }
+
+    company.password = undefined;
+
+    res.status(200).json({
+      success: true,
+      data: company,
+    });
+  } catch (error) {
+    console.log(error);
+    res.status(404).json({ message: error.message });
+  }
 };

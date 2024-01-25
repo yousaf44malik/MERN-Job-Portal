@@ -60,7 +60,6 @@ export const createJob = async (req, res, next) => {
       job,
     });
   } catch (error) {
-    console.log(error);
     res.status(404).json({ message: error.message });
   }
 };
@@ -114,7 +113,6 @@ export const updateJob = async (req, res, next) => {
       jobPost,
     });
   } catch (error) {
-    console.log(error);
     res.status(404).json({ message: error.message });
   }
 };
@@ -194,7 +192,6 @@ export const getJobPosts = async (req, res, next) => {
       numOfPage,
     });
   } catch (error) {
-    console.log(error);
     res.status(404).json({ message: error.message });
   }
 };
@@ -365,7 +362,6 @@ export const addJobApplication = async (req, res, next) => {
     { new: true }
   );
   if (updatedJob) {
-    console.log(updatedJob);
     res.status(200).json({
       success: true,
     });
@@ -398,7 +394,7 @@ export const updateJobApplication = async (req, res, next) => {
     const updatedApplication = req.body;
     const jobId = req.body.jobId;
     const jobToUpdate = await Jobs.findById(jobId);
-    console.log("Original Application", jobToUpdate.application);
+
     const allApplicationsForTheJob = jobToUpdate.application;
     // console.log("All Applications for the job",allApplicationsForTheJob)
     const nonUserApplication = allApplicationsForTheJob.filter(
@@ -410,13 +406,10 @@ export const updateJobApplication = async (req, res, next) => {
       ...nonUserApplication.flat(),
       updatedApplication,
     ];
-    console.log("updated application list", updatedApplicationList);
     const updatedJob = await jobToUpdate.updateOne({
       $set: { application: updatedApplicationList },
     });
-    console.log(updatedJob);
     if (updatedJob) {
-      console.log(updatedJob);
       res.status(200).json({
         success: true,
       });
