@@ -32,6 +32,15 @@ const UploadJob = () => {
   const [isLoading, setIsLoading] = useState(false);
   const [recentPost, setRecentPost] = useState([]);
 
+  function hasLessThan15Words(str) {
+    var words = str.trim().split(/\s+/);
+    var wordCount = words.length;
+    return wordCount < 15;
+  }
+
+  function isNotInteger(str) {
+    return !/^(\-|\+)?([0-9]+|Infinity)$/.test(str);
+  }
   const onSubmit = async (data) => {
     if (data.jobTitle.length < 1) {
       toast.dismiss();
