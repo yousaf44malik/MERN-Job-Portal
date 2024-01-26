@@ -33,6 +33,83 @@ const UploadJob = () => {
   const [recentPost, setRecentPost] = useState([]);
 
   const onSubmit = async (data) => {
+    if (data.jobTitle.length < 1) {
+      toast.dismiss();
+      toast.error("Job Title is required", {
+        position: "top-center",
+        duration: 3000,
+      });
+      return;
+    }
+    if (!isNotInteger(data.jobTitle)) {
+      toast.dismiss();
+      toast.error("Job Title cannot be integer", {
+        position: "top-center",
+        duration: 3000,
+      });
+      return;
+    }
+    if (parseInt(data.salary) < 30) {
+      toast.dismiss();
+      toast.error("Minimum Salary is 30USD", {
+        position: "top-center",
+        duration: 3000,
+      });
+      return;
+    }
+    if (parseInt(data.vacancies) < 1) {
+      toast.dismiss();
+      toast.error("At least 1 vacancy is required", {
+        position: "top-center",
+        duration: 3000,
+      });
+      return;
+    }
+    if (parseInt(data.experience) < 0) {
+      toast.dismiss();
+      toast.error("Expereince cannot be negative integer", {
+        position: "top-center",
+        duration: 3000,
+      });
+
+      return;
+    }
+    if (data.location == "") {
+      toast.dismiss();
+      toast.error("Location of company/job required", {
+        position: "top-center",
+        duration: 3000,
+      });
+
+      return;
+    }
+    if (!isNotInteger(data.location)) {
+      toast.dismiss();
+      toast.error("Location cannot be integer value", {
+        position: "top-center",
+        duration: 3000,
+      });
+
+      return;
+    }
+
+    if (hasLessThan15Words(data.desc)) {
+      toast.dismiss();
+      toast.error("Minimum 15 words for description required", {
+        position: "top-center",
+        duration: 3000,
+      });
+      return;
+    }
+    if (hasLessThan15Words(data.requirements)) {
+      toast.dismiss();
+      toast.error("Minimum 15 words for requirements section", {
+        position: "top-center",
+        duration: 3000,
+      });
+      return;
+    }
+
     setIsLoading(true);
     setErrMsg(null);
 
@@ -56,7 +133,8 @@ const UploadJob = () => {
         });
         setTimeout(() => {
           navigate("/find-jobs");
-        }, 3000);
+          window.location.reload();
+        }, 30);
       }
       setIsLoading(false);
     } catch (error) {
@@ -238,6 +316,7 @@ const UploadJob = () => {
           </div>
         </div>
       </div>
+      <Toaster />
     </div>
   );
 };
