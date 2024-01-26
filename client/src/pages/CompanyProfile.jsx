@@ -167,6 +167,7 @@ const CompnayForm = ({ open, setOpen }) => {
                         </label>
                         <input
                           type="file"
+                          accept="image/*"
                           onChange={(e) => setProfileImage(e.target.files[0])}
                         />
                       </div>
