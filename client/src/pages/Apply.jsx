@@ -65,8 +65,70 @@ const Apply = () => {
   const [jobType, setJobType] = useState("Full-Time");
   const [isLoading, setIsLoading] = useState(false);
   const [hasApplied, setHasApplied] = useState(false);
+  function isValidLinkedInProfile(url) {
+    var linkedInRegex =
+      /^(https?:\/\/)?(www\.)?linkedin\.com\/in\/[a-zA-Z0-9_-]+\/?$/;
 
+    return linkedInRegex.test(url);
+  }
+
+  function hasLessThan30Words(str) {
+    var words = str.trim().split(/\s+/);
+    var wordCount = words.length;
+    return wordCount < 30;
+  }
   const onSubmit = async (data) => {
+    if (
+      data.fluent.toLowerCase() != "yes" &&
+      data.fluent.toLowerCase() != "no"
+    ) {
+      toast.dismiss();
+      toast.error("Yes/No for fluency is required", {
+        position: "top-center",
+        duration: 3000,
+      });
+      return;
+    }
+    if (
+      data.worklegal.toLowerCase() != "yes" &&
+      data.worklegal.toLowerCase() != "no"
+    ) {
+      toast.dismiss();
+      toast.error("Yes/No for legal authorization is required", {
+        position: "top-center",
+        duration: 3000,
+      });
+      return;
+    }
+    if (data.start.toLowerCase() != "yes" && data.start.toLowerCase() != "no") {
+      toast.dismiss();
+      toast.error("Yes/No for start time is required", {
+        position: "top-center",
+        duration: 3000,
+      });
+      return;
+    }
+    if (!isValidLinkedInProfile(data.linkedin)) {
+      toast.dismiss();
+      toast.error("Invalid linkedin profile url", {
+        position: "top-center",
+        duration: 3000,
+      });
+
+      return;
+    }
+    if (data.salary == "") {
+      data.salary = "0";
+    }
+
+    if (hasLessThan30Words(data.coverletter)) {
+      toast.dismiss();
+      toast.error("Minimum 30 words for cover letter required", {
+        position: "top-center",
+        duration: 3000,
+      });
+      return;
+    }
     const filename = `${user.email}-resume-${id}.pdf`;
     const formData = new FormData();
     const applicantName = `${user.firstName} ${user.lastName}`;
