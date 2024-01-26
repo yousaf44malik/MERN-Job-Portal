@@ -41,6 +41,7 @@ const UploadJob = () => {
   function isNotInteger(str) {
     return !/^(\-|\+)?([0-9]+|Infinity)$/.test(str);
   }
+
   const onSubmit = async (data) => {
     if (data.jobTitle.length < 1) {
       toast.dismiss();
@@ -48,6 +49,7 @@ const UploadJob = () => {
         position: "top-center",
         duration: 3000,
       });
+
       return;
     }
     if (!isNotInteger(data.jobTitle)) {
