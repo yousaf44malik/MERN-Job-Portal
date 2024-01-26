@@ -122,7 +122,7 @@ const Footer = () => {
             </p>
 
             <span className="sm:ml-auto sm:mt-0 mt-2 sm:w-auto w-full sm:text-left text-center text-gray-300 text-sm">
-              Designed and coded by <strong>The furious 6</strong>
+              Designed and coded by <strong>BESE 27-C</strong>
             </span>
           </div>
         </div>
