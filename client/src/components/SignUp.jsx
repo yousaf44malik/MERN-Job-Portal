@@ -34,10 +34,92 @@ const SignUp = ({ open, setOpen }) => {
   let from = location.state?.from?.pathname || "/";
 
   const closeModal = () => setOpen(false);
+  function isValidEmail(email) {
+    // Regular expression to match valid email addresses
+    var emailRegex =
+      /^[a-zA-Z0-9._%+-]+@(gmail|yahoo|outlook|hotmail|aol|protonmail|icloud)\.(com|net|org|edu|co\.uk|info)$/i;
 
+    return emailRegex.test(email);
+  }
   const onSubmit = async (data) => {
     let URL = null;
+    if (isRegister) {
+      if (accountType === "seeker") URL = "auth/register";
+      else URL = "companies/register";
+    } else {
+      if (accountType === "seeker") URL = "auth/login";
+      else URL = "companies/login";
+    }
+    if (!isValidEmail(data.email)) {
+      toast.dismiss();
+      toast.error("Invalid email.", {
+        position: "top-center",
+        duration: 3000,
+      });
+      return;
+    }
 
+    if (isRegister && data.firstName.length < 1) {
+      toast.dismiss();
+      toast.error("Invalid First name", {
+        position: "top-center",
+        duration: 3000,
+      });
+      return;
+    }
+    if (isRegister && data.lastName.length < 1) {
+      toast.dismiss();
+      toast.error("Invalid Last name", {
+        position: "top-center",
+        duration: 3000,
+      });
+      return;
+    }
+    if (isRegister && data.password.length < 8) {
+      toast.dismiss();
+      toast.error("Password must be at least 8 characters long.", {
+        position: "top-center",
+        duration: 3000,
+      });
+      return;
+    }
+
+    if (isRegister && !/[A-Z]/.test(data.password)) {
+      toast.dismiss();
+      toast.error("Password must contain at least one uppercase letter.", {
+        position: "top-center",
+        duration: 3000,
+      });
+      return;
+    }
+
+    if (isRegister && !/[a-z]/.test(data.password)) {
+      toast.dismiss();
+      toast.error("Password must contain at least one lowercase letter.", {
+        position: "top-center",
+        duration: 3000,
+      });
+      return;
+    }
+    if (isRegister && !/\d/.test(data.password)) {
+      toast.dismiss();
+      toast.error("Password must contain at least one digit.", {
+        position: "top-center",
+        duration: 3000,
+      });
+      return;
+    }
+    if (isRegister && !/[$@$!%*?&]/.test(data.password)) {
+      toast.dismiss();
+      toast.error(
+        "Password must contain at least one special character (e.g., $, @, !, %, *, ?, &).",
+        {
+          position: "top-center",
+          duration: 3000,
+        }
+      );
+      return;
+    }
     if (isRegister) {
       if (accountType === "seeker") URL = "auth/register";
       else URL = "companies/register";
