@@ -130,7 +130,7 @@ const Apply = () => {
       });
       return;
     }
-    
+
     const applicantName = `${user.firstName} ${user.lastName}`;
     const userPhoto = user.profileUrl;
     const cvURI = resumeFile && (await handleFileUpload(resumeFile));

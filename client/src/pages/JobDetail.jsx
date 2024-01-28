@@ -216,14 +216,14 @@ const JobDetail = () => {
                     onClick={handleDeletePost}
                     containerStyles={`w-full flex items-center justify-center text-white bg-red-700 py-3 px-5 outline-none rounded-full text-base`}
                   />
-                ) : (
+                ) : user?.accountType === "seeker" ? (
                   <Link to={`/apply/${id}`}>
                     <CustomButton
                       title="Apply Now"
-                      containerStyles={`w-full flex items-center justify-center text-white bg-black py-3 px-5 outline-none rounded-full text-base`}
+                      containerStyles="w-full flex items-center justify-center text-white bg-black py-3 px-5 outline-none rounded-full text-base"
                     />
                   </Link>
-                )}
+                ) : null}
               </div>
             </div>
           )}
