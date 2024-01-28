@@ -183,7 +183,7 @@ const Apply = () => {
         });
         const userDataString = localStorage.getItem("userInfo");
         const userData = JSON.parse(userDataString);
-        userData.applications.push(id);
+        userData?.applications?.push(id);
         localStorage.setItem("userInfo", JSON.stringify(userData));
         updateUserApplications();
         setTimeout(() => {
