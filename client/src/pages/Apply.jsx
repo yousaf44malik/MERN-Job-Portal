@@ -16,6 +16,7 @@ import moment from "moment";
 import axios from "axios";
 import { useDispatch } from "react-redux";
 import { Login } from "../redux/userSlice";
+import { handleFileUpload } from "../utils";
 
 const Apply = () => {
   const dispatch = useDispatch();
@@ -129,28 +130,28 @@ const Apply = () => {
       });
       return;
     }
-    const filename = `${user.email}-resume-${id}.pdf`;
-    const formData = new FormData();
+    
     const applicantName = `${user.firstName} ${user.lastName}`;
     const userPhoto = user.profileUrl;
+    const cvURI = file && (await handleFileUpload(file));
 
-    if (resumeFile) {
-      formData.append("file", resumeFile);
+    // if (resumeFile) {
+    //   formData.append("file", resumeFile);
 
-      try {
-        const response = await axios.post(
-          `https://workease-server-woad.vercel.app/upload?fileName=${filename}`,
-          formData,
-          {
-            headers: {
-              "Content-Type": "multipart/form-data",
-            },
-          }
-        );
-      } catch (error) {
-        console.error("Error uploading file:", error);
-      }
-    }
+    //   try {
+    //     const response = await axios.post(
+    //       `https://workease-server-woad.vercel.app/upload?fileName=${filename}`,
+    //       formData,
+    //       {
+    //         headers: {
+    //           "Content-Type": "multipart/form-data",
+    //         },
+    //       }
+    //     );
+    //   } catch (error) {
+    //     console.error("Error uploading file:", error);
+    //   }
+    // }
 
     setIsLoading(true);
     setErrMsg(null);
@@ -158,7 +159,7 @@ const Apply = () => {
     const newData = {
       ...data,
       jobId: id,
-      filename: filename,
+      cvUrl: cvURI,
       applicantName: applicantName,
       userPhoto: userPhoto,
       status: "pending",

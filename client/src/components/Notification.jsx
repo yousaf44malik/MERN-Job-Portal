@@ -256,7 +256,7 @@ const ApplicationCard = ({ application }) => {
                   }`}
                 >
                   <a
-                    href={`https://workease-server-woad.vercel.app/${application.filename}`}
+                    href={application.cvUrl}
                     target="_blank"
                   >
                     View CV
