@@ -37,13 +37,13 @@ const ApplicationCard = ({ application }) => {
     }
   };
 
-  const extractEmail = (inputString) => {
-    const pattern = /([^.\s]+\.com)\b/;
+  // const extractEmail = (inputString) => {
+  //   const pattern = /([^.\s]+\.com)\b/;
 
-    const match = inputString?.match(pattern);
-    const extractedEmail = match ? match[1] : null;
-    return extractedEmail;
-  };
+  //   const match = inputString?.match(pattern);
+  //   const extractedEmail = match ? match[1] : null;
+  //   return extractedEmail;
+  // };
   const handleDeclinePressed = async () => {
     const { status, ...data } = application;
     data.status = "declined";
@@ -62,7 +62,7 @@ const ApplicationCard = ({ application }) => {
         });
       } else {
         toast.dismiss();
-        const email = extractEmail(application?.filename);
+        const email = application?.email;
 
         emailjs.send(
           emailjsConfig.serviceID,
@@ -137,7 +137,7 @@ const ApplicationCard = ({ application }) => {
       } else {
         toast.dismiss();
 
-        const email = extractEmail(application?.filename);
+        const email = application?.email;
 
         emailjs.send(
           emailjsConfig.serviceID,
