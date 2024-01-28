@@ -26,6 +26,7 @@ const Apply = () => {
   const [isFetching, setIsFetching] = useState(false);
   const [resumeFile, setFile] = useState([]);
   const navigate = useNavigate();
+  const userInfo = JSON.parse(localStorage.getItem("userInfo"));
   const getJobDetails = async () => {
     setIsFetching(true);
 
@@ -161,6 +162,7 @@ const Apply = () => {
       jobId: id,
       cvUrl: cvURI,
       applicantName: applicantName,
+      email: userInfo?.email,
       userPhoto: userPhoto,
       status: "pending",
       interviewTime: "",
