@@ -133,7 +133,7 @@ const Apply = () => {
     
     const applicantName = `${user.firstName} ${user.lastName}`;
     const userPhoto = user.profileUrl;
-    const cvURI = file && (await handleFileUpload(file));
+    const cvURI = resumeFile && (await handleFileUpload(resumeFile));
 
     // if (resumeFile) {
     //   formData.append("file", resumeFile);
