@@ -40,9 +40,8 @@ const ApplicationCard = ({ application }) => {
   const extractEmail = (inputString) => {
     const pattern = /([^.\s]+\.com)\b/;
 
-    const match = inputString.match(pattern);
+    const match = inputString?.match(pattern);
     const extractedEmail = match ? match[1] : null;
-
     return extractedEmail;
   };
   const handleDeclinePressed = async () => {
@@ -255,10 +254,7 @@ const ApplicationCard = ({ application }) => {
                       : "p-3  bg-red-100 rounded-md"
                   }`}
                 >
-                  <a
-                    href={application.cvUrl}
-                    target="_blank"
-                  >
+                  <a href={application.cvUrl} target="_blank">
                     View CV
                   </a>
                 </button>
