@@ -127,7 +127,7 @@ export const getUserApplications = async (req, res) => {
     let job = await Jobs.findById(user.applications[i]);
     // console.log("JOB APPLICATION",job.application)
     const userApplications = job.application.filter(
-      (currAppl) => currAppl[0].user.userId == userId
+      (currAppl) => currAppl[0]?.user?.userId == userId
     );
     // console.log(userApplications[0])
     for (let i = 0; i < userApplications.length; i++)
