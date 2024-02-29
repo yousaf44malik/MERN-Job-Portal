@@ -83,14 +83,14 @@ const Footer = () => {
               </a> */}
               <a
                 target="_blank"
-                href="https://github.com/haseeeb1"
+                href="https://github.com/yousaf44malik"
                 className="ml-3 text-white text-xl  hover:scale-125 ease-in-out duration-300 cursor-pointer"
               >
                 <FaGithub />
               </a>
               <a
                 target="_blank"
-                href="https://instagram.com/haseeeb_ul_hassan"
+                href="https://instagram.com/yousaf_488/"
                 className="ml-3 text-white text-xl  hover:scale-125 ease-in-out duration-300 cursor-pointer"
               >
                 <FiInstagram />
@@ -98,7 +98,7 @@ const Footer = () => {
 
               <a
                 target="_blank"
-                href="https://linkedin.com/in/haseeb-ul-hassan"
+                href="https://www.linkedin.com/in/yousaf-malik-769b3b244/"
                 className="ml-3 text-white text-xl  hover:scale-125 ease-in-out duration-300 cursor-pointer"
               >
                 <FaLinkedinIn />
@@ -112,7 +112,7 @@ const Footer = () => {
             <p className="text-gray-300 text-sm text-center sm:text-left">
               &copy; 2023 Work Ease —
               <a
-                href="https://github.com/haseeeb1"
+                href="https://github.com/yousaf44malik"
                 className="text-[#1199e7] ml-1"
                 target="_blank"
                 rel="noopener noreferrer"
